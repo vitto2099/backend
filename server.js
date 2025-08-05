@@ -3,7 +3,7 @@ const fs = require('fs');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const HOST = '0.0.0.0';
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +21,10 @@ function carregarTarefas() {
 function salvarTarefas(tarefas) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(tarefas, null, 2));
 }
+
+app.get('/', (req, res) => {
+  res.send('Backend rodando');
+});
 
 app.get('/tarefas', (req, res) => {
   res.json(carregarTarefas());
@@ -52,6 +56,6 @@ app.delete('/tarefas/:index', (req, res) => {
   res.status(204).send();
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Servidor rodando em http://${HOST}:${PORT}`);
 });
